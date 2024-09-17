@@ -6,13 +6,15 @@ GITHUB_API_URL = "https://api.github.com"
 TOKEN = os.getenv("GITHUB_TOKEN")
 console = Console()
 
+HEADERS = {"Authorization":f"token {TOKEN}"}
+
 def get_repo_data(repo_name):
     """
     Fetch data from a GitHub repository.
     """
     url = f"{GITHUB_API_URL}/repos/{repo_name}"
-    headers = {"Authorization":f"token {TOKEN}"}
-    response = requests.get(url, headers=headers)
+    
+    response = requests.get(url, headers=HEADERS)
     if response.status_code == 200:
         return response.json()
     else:
@@ -35,3 +37,22 @@ def display_stats(data):
     table.add_row("Watchers", str(data["watchers_count"]))
 
     console.print(table)
+
+
+
+def get_commits_data(repo_name):
+    """
+    Fetch commit data for a Github Repo
+    """
+
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/commits"
+    response = requests.get(url, headers=HEADERS)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        console.print(f"[bold red]Failed to fetch commit data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
+        return None
+    
+
+def display_commits_stats(data):
+    pass
