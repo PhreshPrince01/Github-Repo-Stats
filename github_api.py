@@ -72,5 +72,17 @@ def display_commits_stats(data, repo_name):
 
         table.add_row(commit_msg, author_name, author_email,commit_url)
         
-
     console.print(table)
+
+
+
+def get_contributors(repo_name):
+    """
+    """
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/contributors"
+    response = requests.get(url, headers=HEADERS)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        console.print(f"[bold red]Failed to fetch contributors data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
+        return None
