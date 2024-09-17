@@ -55,4 +55,11 @@ def get_commits_data(repo_name):
     
 
 def display_commits_stats(data):
-    pass
+    table = Table(title="GitHub Commit Stats")
+    table.add_column("Commit Message", justify="left", style="cyan")
+    table.add_column("Author", justify="right", style="magenta")
+
+    for commit in data:
+        table.add_row(commit['commit']['message'], commit['commit']['author']['name'])
+
+    console.print(table)
