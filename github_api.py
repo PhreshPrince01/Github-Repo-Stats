@@ -54,12 +54,23 @@ def get_commits_data(repo_name):
         return None
     
 
-def display_commits_stats(data):
+def display_commits_stats(data, repo_name):
     table = Table(title="GitHub Commit Stats")
     table.add_column("Commit Message", justify="left", style="cyan")
-    table.add_column("Author", justify="right", style="magenta")
+    table.add_column("Author", justify="left", style="magenta")
+    table.add_column("Email", justify="left", style="yellow")
+    table.add_column("Commit URL", justify="left", style="purple")
+
+    base_url = f"https://github.com/{repo_name}/commit/"
 
     for commit in data:
-        table.add_row(commit['commit']['message'], commit['commit']['author']['name'])
+        commit_msg = commit['commit']['message']
+        author_name = commit['commit']['author']['name']
+        author_email = commit['commit']['author']['email']
+        commit_sha = commit['sha']
+        commit_url = f"{base_url}{commit_sha}"
+
+        table.add_row(commit_msg, author_name, author_email,commit_url)
+        
 
     console.print(table)

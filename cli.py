@@ -34,7 +34,7 @@ def get_commits(repo, confirm):
         click.confirm(f"Are you sure you want to fetch commits for {repo}",abort=True)
     data = get_commits_data(repo)
     if data:
-        display_commits_stats(data)
+        display_commits_stats(data,repo)
 
 
 if __name__ == "__main__":
