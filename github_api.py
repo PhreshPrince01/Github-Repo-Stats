@@ -186,16 +186,23 @@ def get_branches_stats(repo_name):
     """
     Fetch branches data
     """
-    url = f"{GITHUB_API_URL}/repos/{repo_name}/branches"
-    response = requests.get(url, headers=HEADERS)
-    if response.status_code == 200:
-        return response.json()
+    branch_url = f"{GITHUB_API_URL}/repos/{repo_name}/branches"
+    repo_url =  f"{GITHUB_API_URL}/repos/{repo_name}"
+
+    branches_response = requests.get(branch_url, headers=HEADERS)
+    repo_response = requests.get(repo_url,headers=HEADERS)
+
+
+    if branches_response.status_code == 200 and repo_response.status_code == 200:
+            branches = branches_response.json()
+            default_branch = repo_response.json()['default_branch']
+            return branches, default_branch
     else:
-        console.print(f"[bold red]Failed to fetch branches data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
-        return None
+        console.print(f"[bold red]Failed to fetch branches data: {branches_response.status_code} - {branches_response.json().get('message'),'unkown error'}[/bold red]")
+        return None, None
     
 
-def display_branches(branches):
+def display_branches(branches, defalut_branch):
     """
     display branches data
     """
@@ -205,6 +212,11 @@ def display_branches(branches):
 
     for branch in branches:
         protected_status = "yes" if branch['protected'] else "No"
-        table.add_row(branch['name'],protected_status)
+        branch_name = branch['name']
+
+        if branch_name == defalut_branch:
+            table.add_row(f"[bold yellow]{branch_name} (default)[/bold yellow]", protected_status)
+        else:
+            table.add_row(branch['name'],protected_status)
     
     console.print(table)
