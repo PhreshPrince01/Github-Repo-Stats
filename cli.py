@@ -1,11 +1,22 @@
 import click
-from github_api import get_repo_data, display_stats, get_commits_data, display_commits_stats
+from github_api import *
 from utils import print_welcome_message
 
 
 @click.group()
 def cli():
     print_welcome_message()
+
+
+@cli.command()
+@click.option('--repo', prompt='GitHub Repository', help= 'The full name of the GitHub repository (e.g., owener/repo)')
+def get_contributors(repo):
+    """
+    CLI to get contributors for a GitHub repository
+    """
+    contributors = get_contributors_stats(repo)
+    if contributors:
+        display_contributors_stats(contributors)
 
 
 @cli.command()
@@ -35,6 +46,10 @@ def get_commits(repo, confirm):
     data = get_commits_data(repo)
     if data:
         display_commits_stats(data,repo)
+
+
+
+        
 
 
 if __name__ == "__main__":

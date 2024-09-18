@@ -15,6 +15,7 @@ def get_repo_data(repo_name):
     url = f"{GITHUB_API_URL}/repos/{repo_name}"
     
     response = requests.get(url, headers=HEADERS)
+    print(response)
     if response.status_code == 200:
         return response.json()
     else:
@@ -48,6 +49,7 @@ def get_commits_data(repo_name):
     url = f"{GITHUB_API_URL}/repos/{repo_name}/commits"
     response = requests.get(url, headers=HEADERS)
     if response.status_code == 200:
+        print(response)
         return response.json()
     else:
         console.print(f"[bold red]Failed to fetch commit data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
@@ -76,13 +78,31 @@ def display_commits_stats(data, repo_name):
 
 
 
-def get_contributors(repo_name):
+def get_contributors_stats(repo_name):
     """
+    Fetch contributors data for a GitHub repository.
     """
-    url = f"{GITHUB_API_URL}/repos/{repo_name}/contributors"
+    url = f"https://api.github.com/repos/{repo_name}/contributors"
     response = requests.get(url, headers=HEADERS)
+
     if response.status_code == 200:
         return response.json()
     else:
         console.print(f"[bold red]Failed to fetch contributors data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
         return None
+    
+
+
+def display_contributors_stats(contributors):
+    """
+    Display contributor stats in a table
+    """
+
+    table = Table(title="GitHib Contributor Stats")
+    table.add_column("Contributor", justify="left", style="cyan")
+    table.add_column("Contributions", justify="right", style="magenta")
+
+    for contributor in contributors:
+        table.add_row(contributor['login'], str(contributor['contributions']))
+
+    console.print(table)
