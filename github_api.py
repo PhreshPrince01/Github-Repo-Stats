@@ -220,3 +220,16 @@ def display_branches(branches, defalut_branch):
             table.add_row(branch['name'],protected_status)
     
     console.print(table)
+
+
+def get_release_stats(repo_name):
+    """
+    Fetch release data
+    """
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/releases"
+    response = requests.get(url, headers=HEADERS)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        console.print(f"[bold red]Failed to fetch release data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
+        return None
