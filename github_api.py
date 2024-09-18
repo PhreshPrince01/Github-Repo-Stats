@@ -15,7 +15,6 @@ def get_repo_data(repo_name):
     url = f"{GITHUB_API_URL}/repos/{repo_name}"
     
     response = requests.get(url, headers=HEADERS)
-    print(response)
     if response.status_code == 200:
         return response.json()
     else:
@@ -105,4 +104,43 @@ def display_contributors_stats(contributors):
     for contributor in contributors:
         table.add_row(contributor['login'], str(contributor['contributions']))
 
+    console.print(table)
+
+
+
+def get_issues_stats(repo_name):
+    """
+    Fetch issues data
+    """
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/issues"
+    response = requests.get(url, headers=HEADERS)
+    if response.status_code == 200:
+        print(response)
+        return response.json()
+    else:
+        console.print(f"[bold red]Failed to fetch issues data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
+        return None
+
+
+
+def display_issues(issues):
+    """
+    Display issues stats in a table
+    """
+
+    table = Table(title="GitHib Issues Stats")
+    table.add_column("Tittle", justify="left", style="cyan")
+    table.add_column("Author", justify="left", style="magenta")
+    table.add_column("Date", justify="center", style="green")
+    table.add_column("Created At", justify="left", style="yellow")
+
+
+    
+    for issue in issues:
+        table.add_row(
+            issue['title'],
+            issue['user']['login'],
+            issue['state'],
+            issue['created_at']
+        )
     console.print(table)
