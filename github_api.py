@@ -157,3 +157,26 @@ def get_pull_requests_stats(repo_name):
         return None
     
 
+
+def display_pull_requests(prs):
+    """
+    Display pull requests stats in a table
+    """
+
+    table = Table(title="GitHib Pull Requests Stats")
+    table.add_column("Tittle", justify="left", style="cyan", no_wrap=True)
+    table.add_column("Author", justify="left", style="magenta")
+    table.add_column("State", justify="center", style="green")
+    table.add_column("Created At", justify="left", style="yellow")
+
+
+    
+    for pr in prs:
+        table.add_row(
+            pr['title'],
+            pr['user']['login'],
+            pr['state'],
+            pr['created_at']
+        )
+    console.print(table)
+
