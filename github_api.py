@@ -180,3 +180,16 @@ def display_pull_requests(prs):
         )
     console.print(table)
 
+
+
+def get_branches_stats(repo_name):
+    """
+    Fetch branches data
+    """
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/branches"
+    response = requests.get(url, headers=HEADERS)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        console.print(f"[bold red]Failed to fetch branches data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
+        return None
