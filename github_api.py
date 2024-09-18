@@ -193,3 +193,18 @@ def get_branches_stats(repo_name):
     else:
         console.print(f"[bold red]Failed to fetch branches data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
         return None
+    
+
+def display_branches(branches):
+    """
+    display branches data
+    """
+    table = Table(title="GitHib Pull Requests Stats")
+    table.add_column("Branch Name", justify="left", style="cyan", no_wrap=True)
+    table.add_column("Protected", justify="center", style="green")
+
+    for branch in branches:
+        protected_status = "yes" if branch['protected'] else "No"
+        table.add_row(branch['name'],protected_status)
+    
+    console.print(table)
