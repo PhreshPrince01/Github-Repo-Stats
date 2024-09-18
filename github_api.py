@@ -142,3 +142,18 @@ def display_issues(issues):
             issue['created_at']
         )
     console.print(table)
+
+
+def get_pull_requests_stats(repo_name):
+    """
+    Fetch issues data
+    """
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/pulls?state=all"
+    response = requests.get(url, headers=HEADERS)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        console.print(f"[bold red]Failed to fetch pull requests data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
+        return None
+    
+
