@@ -48,7 +48,6 @@ def get_commits_data(repo_name):
     url = f"{GITHUB_API_URL}/repos/{repo_name}/commits"
     response = requests.get(url, headers=HEADERS)
     if response.status_code == 200:
-        print(response)
         return response.json()
     else:
         console.print(f"[bold red]Failed to fetch commit data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
@@ -112,10 +111,9 @@ def get_issues_stats(repo_name):
     """
     Fetch issues data
     """
-    url = f"{GITHUB_API_URL}/repos/{repo_name}/issues"
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/issues?state=all"
     response = requests.get(url, headers=HEADERS)
     if response.status_code == 200:
-        print(response)
         return response.json()
     else:
         console.print(f"[bold red]Failed to fetch issues data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
