@@ -94,6 +94,22 @@ def get_branches(repo, confirm):
 
 
 
+@cli.command()
+@click.option('--repo', prompt='GitHub Repository', help= 'The full name of the GitHub repository (e.g., owener/repo)')
+@click.option('--confirm/--no-confirm', default=True, help='Require confirmation before fetching data.')
+def get_releases(repo, confirm):
+    """
+    CLI to get branches for a GitHub Repository
+    """
+    if confirm:
+        click.confirm(f"Are you sure you want to fetch branches for {repo}",abort=True)
+    data = get_release_stats(repo)
+    if data:
+        display_releases(data)
+    else:
+        print(404)
+
+
 
 
         
