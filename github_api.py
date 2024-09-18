@@ -233,3 +233,28 @@ def get_release_stats(repo_name):
     else:
         console.print(f"[bold red]Failed to fetch release data: {response.status_code} - {response.json().get('message'),'unkown error'}[/bold red]")
         return None
+    
+
+
+def display_releases(releases):
+    """
+    Display pull releases stats in a table
+    """
+
+    table = Table(title="GitHib Releses Stats")
+    table.add_column("Release Tag", justify="left", style="cyan", no_wrap=True)
+    table.add_column("Release Name", justify="left", style="magenta")
+    table.add_column("Published Date", justify="center", style="green")
+    table.add_column("Notes", justify="left", style="yellow")
+
+    for release in releases:
+        tag_name = releases['tag_name']
+        release_name = release.get('name')
+        published_at = release['published_at']
+        notes = release.get('body', 'No release notes')[:200]
+        table.add_row(tag_name,release_name,published_at,notes)
+
+        console.print(table)
+
+
+    
