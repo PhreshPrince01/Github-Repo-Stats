@@ -218,3 +218,16 @@ def get_languages_stats(repo_name):
     """
     url = f"https:/{GITHUB_API_URL}/repos/{repo_name}/languages"
     return make_request(url)
+
+def display_languages(languages):
+    """Display programming languages and their byte count in a table."""
+    columns = [
+        {"name": "Language", "justify":"left", "style":"cyan"},
+        {"name": "Bytes of Code", "justify":"right", "style":"green"}
+    ]
+
+    rows = [
+        [language, str(bytes_of_code)]
+        for language, bytes_of_code in languages.items()
+    ]
+    display_table("GitHub Repository Languages", columns, rows)
