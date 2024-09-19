@@ -33,11 +33,14 @@ def get_stats(repo, confirm):
     if confirm and not prompt_confirmation("stats", repo):
         click.echo("Operation cancelled.")
         return
+    
+    show_progress("Fetching Repo Stats...",total=100)
     data = get_repo_data(repo)
     if data:
+        show_status("Repository stats fetched successfully.")
         display_stats(data)
     else:
-        print_error_msg()
+        show_status("Failed to fetch repository stats.", success=False)
 
 
 @cli.command(help="Fetch and display commits for a GitHub repository.\n\nExample: python3 cli.py get-commits --repo owner/repo")
@@ -50,9 +53,10 @@ def get_commits(repo, confirm):
         return
     data = get_commits_data(repo)
     if data:
+        show_status("Commits fetched successfully.")
         display_commits_stats(data, repo)
     else:
-        print_error_msg()
+        show_status("Failed to fetch commits.", success=False)
 
 
 @cli.command(help="Fetch and display issues for a GitHub repository.\n\nExample: python3 cli.py get-issues --repo owner/repo")
@@ -67,10 +71,11 @@ def get_issues(repo, state, confirm):
         click.confirm(f"Are you sure you want to fetch {state} issues for {repo}?", abort=True)
     data = get_issues_stats(repo, state)
     if data:
+        show_status("Issues fetched successfully.")
         display_issues(data)
 
     else:
-        print_error_msg()
+        show_status("Failed to fetch Issues.", success=False)
 
 
 @cli.command(help="Fetch and display pull requests for a GitHub repository.\n\nExample: python3 cli.py get-pull-requests --repo owner/repo")
@@ -84,9 +89,11 @@ def get_pull_requests(repo, state, confirm):
         return
     data = get_pull_requests_stats(repo,state)
     if data:
+        show_status("Pull requests fetched successfully.")
         display_pull_requests(data)
     else:
-        print_error_msg()
+        show_status("Failed to fetch Pull requests.", success=False)
+
 
 @cli.command(help="Fetch and display branches for a GitHub repository.\n\nExample: python3 cli.py get-branches --repo owner/repo")
 @click.option('--repo', prompt='GitHub Repository', help='The full name of the GitHub repository (e.g., owner/repo)')
@@ -98,9 +105,10 @@ def get_branches(repo, confirm):
         return
     branches, default_branch = get_branches_stats(repo)
     if branches and default_branch:
+        show_status("Branches fetched successfully.")
         display_branches(branches, default_branch)
     else:
-        print_error_msg()
+        show_status("Failed to fetch Branches.", success=False)
 
 
 @cli.command(help="Fetch and display releases for a GitHub repository.\n\nExample: python3 cli.py get-releases --repo owner/repo")
@@ -113,9 +121,10 @@ def get_releases(repo, confirm):
         return
     data = get_release_stats(repo)
     if data:
+        show_status("Releases fetched successfully.")
         display_releases(data)
     else:
-        print_error_msg()
+       show_status("Failed to fetch Releases.", success=False)
 
 
 @cli.command(help="Fetch and display tags for a GitHub repository.\n\nExample: python3 cli.py get-tags --repo owner/repo")
@@ -127,9 +136,10 @@ def get_tags(repo, confirm):
         return
     data = get_tags_stats(repo)
     if data:
+        show_status("Tags fetched successfully.")
         display_tags(data)
     else:
-        print_error_msg()
+        show_status("Failed to fetch Tags.", success=False)
 
 
 @cli.command(help="Fetch and display languages used in a GitHub repository.\n\nExample: python3 cli.py get-languages --repo owner/repo")
@@ -142,9 +152,10 @@ def get_languages(repo, confirm):
         return
     data = get_languages_stats(repo)
     if data:
+        show_status("Languages fetched successfully.")
         display_languages(data)
     else:
-        print_error_msg()
+        show_status("Failed to fetch Languages.", success=False)
 
 
 @cli.command(help="Fetch and display forks for a GitHub repository.\n\nExample: python3 cli.py get-forks --repo owner/repo")
@@ -157,9 +168,10 @@ def get_forks(repo, confirm):
         return
     data = get_forks_stats(repo)
     if data:
+        show_status("Forks fetched successfully.")
         display_forks(data)
     else:
-        print_error_msg()
+        show_status("Failed to fetch Forks", success=False)
 
 
 @cli.command(help="Fetch and display traffic data for a GitHub repository.\n\nExample: python3 cli.py get-traffic --repo owner/repo")
@@ -172,9 +184,10 @@ def get_traffic(repo, confirm):
         return
     data = get_traffic_stats(repo)
     if data:
+        show_status("Traffic fetched successfully.")
         display_traffic(data)
     else:
-        print_error_msg()
+        show_status("Failed to fetch Traffic.", success=False)
 
 
 if __name__ == "__main__":
