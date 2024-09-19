@@ -36,6 +36,8 @@ def get_stats(repo, confirm):
     data = get_repo_data(repo)
     if data:
         display_stats(data)
+    else:
+        print_error_msg()
 
 
 @cli.command(help="Fetch and display commits for a GitHub repository.\n\nExample: python3 cli.py get-commits --repo owner/repo")
@@ -49,6 +51,8 @@ def get_commits(repo, confirm):
     data = get_commits_data(repo)
     if data:
         display_commits_stats(data, repo)
+    else:
+        print_error_msg()
 
 
 @cli.command(help="Fetch and display issues for a GitHub repository.\n\nExample: python3 cli.py get-issues --repo owner/repo")
@@ -62,6 +66,8 @@ def get_issues(repo, confirm):
     data = get_issues_stats(repo)
     if data:
         display_issues(data)
+    else:
+        print_error_msg()
 
 
 @cli.command(help="Fetch and display pull requests for a GitHub repository.\n\nExample: python3 cli.py get-pull-requests --repo owner/repo")
@@ -75,7 +81,8 @@ def get_pull_requests(repo, confirm):
     data = get_pull_requests_stats(repo)
     if data:
         display_pull_requests(data)
-
+    else:
+        print_error_msg()
 
 @cli.command(help="Fetch and display branches for a GitHub repository.\n\nExample: python3 cli.py get-branches --repo owner/repo")
 @click.option('--repo', prompt='GitHub Repository', help='The full name of the GitHub repository (e.g., owner/repo)')
@@ -88,6 +95,8 @@ def get_branches(repo, confirm):
     branches, default_branch = get_branches_stats(repo)
     if branches and default_branch:
         display_branches(branches, default_branch)
+    else:
+        print_error_msg()
 
 
 @cli.command(help="Fetch and display releases for a GitHub repository.\n\nExample: python3 cli.py get-releases --repo owner/repo")
@@ -101,6 +110,8 @@ def get_releases(repo, confirm):
     data = get_release_stats(repo)
     if data:
         display_releases(data)
+    else:
+        print_error_msg()
 
 
 @cli.command(help="Fetch and display tags for a GitHub repository.\n\nExample: python3 cli.py get-tags --repo owner/repo")
@@ -113,6 +124,8 @@ def get_tags(repo, confirm):
     data = get_tags_stats(repo)
     if data:
         display_tags(data)
+    else:
+        print_error_msg()
 
 
 @cli.command(help="Fetch and display languages used in a GitHub repository.\n\nExample: python3 cli.py get-languages --repo owner/repo")
@@ -126,6 +139,8 @@ def get_languages(repo, confirm):
     data = get_languages_stats(repo)
     if data:
         display_languages(data)
+    else:
+        print_error_msg()
 
 
 @cli.command(help="Fetch and display forks for a GitHub repository.\n\nExample: python3 cli.py get-forks --repo owner/repo")
@@ -139,6 +154,8 @@ def get_forks(repo, confirm):
     data = get_forks_stats(repo)
     if data:
         display_forks(data)
+    else:
+        print_error_msg()
 
 
 @cli.command(help="Fetch and display traffic data for a GitHub repository.\n\nExample: python3 cli.py get-traffic --repo owner/repo")
@@ -152,6 +169,8 @@ def get_traffic(repo, confirm):
     data = get_traffic_stats(repo)
     if data:
         display_traffic(data)
+    else:
+        print_error_msg()
 
 
 if __name__ == "__main__":

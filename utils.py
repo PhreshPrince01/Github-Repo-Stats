@@ -27,18 +27,35 @@ def prompt_confirmation(command, repo):
     return click.confirm(f"Are you sure you want to fetch {command} for {repo}?", default=True)
 
 
+def print_error_msg():
+    console.print("[bold red]Failed to fetch repository data. Please check the repository name and try again.[/bold red]")
 
 
 def make_request(url):
-    """"
-    Make a GET request to the specified URL and return the JSON response
     """
-    response = requests.get(url, headers=HEADERS)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        console.print(f"[bold red] Failed to fetch data: {response.status_code} - {response.get('message', 'unknown error')}[/bold red]")
-    
+    Make a GET request to the GitHub API and handle errors gracefully.
+    """
+    headers = {"Authorization": f"token {TOKEN}"}
+    try:
+        response = requests.get(url, headers=headers)
+        
+        
+        # Handle common HTTP error status codes
+        if response.status_code == 200:
+            return response.json()
+        elif response.status_code == 401:
+            console.print("[bold red]Unauthorized. Please check your GitHub token.[/bold red]")
+        elif response.status_code == 403:
+            console.print("[bold red]Forbidden request. You might not have access to this resource.[/bold red]")
+        elif response.status_code == 404:
+            console.print(f"[bold red]Repository: {url} not found. Please check the repository name.[/bold red]")
+        else:
+            console.print(f"[bold red]An error occurred: {response.status_code} - {response.reason}[/bold red]")
+        
+    except requests.exceptions.RequestException as e:
+        console.print(f"[bold red]An error occurred while making the request: {str(e)}[/bold red]")
+    return None
+
 
 def display_table(title, columns, rows):
     """

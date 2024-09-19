@@ -18,6 +18,9 @@ def get_repo_data(repo_name):
     license_data = make_request(license_url)
     latest_release = make_request(releases_url)
 
+    if repo_data == None and pulls_data == None and contributors_data == None and license_data == None and latest_release == None:
+        return None
+    
     # Return combined data
     return {
         "repo": repo_data,
@@ -33,6 +36,10 @@ def display_stats(data):
     """
     Display repository stats in a table with formatted numbers and repository size in MB.
     """
+    if data is None:
+        console.print("[bold red]No data available to display. Please check the repository name and try again.[/bold red]")
+        return
+
     repo = data["repo"]
     pulls = data["pulls"]
     contributors = data["contributors"]
