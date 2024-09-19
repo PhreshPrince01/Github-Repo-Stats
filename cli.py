@@ -134,7 +134,7 @@ def get_languages(repo, confirm):
     CLI to get languages for a GitHub Repository
     """
     if confirm:
-        click.confirm(f"Are you sure you want to fetch tags for {repo}",abort=True)
+        click.confirm(f"Are you sure you want to fetch languages for {repo}",abort=True)
     data = get_languages_stats(repo)
     if data:
         display_languages(data)
@@ -142,8 +142,20 @@ def get_languages(repo, confirm):
         print(404)
 
 
-        
-
+@cli.command()
+@click.option('--repo', prompt='GitHub Repository', help= 'The full name of the GitHub repository (e.g., owener/repo)')
+@click.option('--confirm/--no-confirm', default=True, help='Require confirmation before fetching data.')
+def get_forks(repo, confirm):
+    """
+    CLI to get forks for a GitHub Repository
+    """
+    if confirm:
+        click.confirm(f"Are you sure you want to fetch forks for {repo}",abort=True)
+    data = get_forks_stats(repo)
+    if data:
+        display_forks(data)
+    else:
+        print(404)
 
 if __name__ == "__main__":
     cli()

@@ -256,4 +256,4 @@ def display_forks(forks):
         for fork in forks
     ]
 
-    display_table("GitHub Repository Forks")
+    display_table("GitHub Repository Forks",columns, rows)
