@@ -182,7 +182,7 @@ def display_releases(releases):
     ]
 
     rows = [
-        [release['tag_name'],release.get('name'),release['published_at']]
+        [release['tag_name'],release.get('name'),release['published_at'][:10]]
         for release in releases
     ]
     display_table("GitHib Releses Stats", columns, rows)
@@ -267,56 +267,46 @@ def get_traffic_stats(repo_name):
     views_url = f"https://api.github.com/repos/{repo_name}/traffic/views"
     clones_url = f"https://api.github.com/repos/{repo_name}/traffic/clones"
     
-    headers = {"Authorization": f"token {TOKEN}"}
+    views_data = make_request(views_url)
+    clones_data = make_request(clones_url)
     
-    views_response = requests.get(views_url, headers=headers)
-    clones_response = requests.get(clones_url, headers=headers)
-    
-    if views_response.status_code == 200 and clones_response.status_code == 200:
+    if views_data is not None and clones_data is not None:
         return {
-            "views": views_response.json(),
-            "clones": clones_response.json()
+            "views": views_data,
+            "clones": clones_data
         }
     else:
-        if views_response.status_code != 200:
-            console.print(f"[bold red]Failed to fetch views data: {views_response.status_code} - {views_response.json().get('message', 'Unknown error')}[/bold red]")
-        if clones_response.status_code != 200:
-            console.print(f"[bold red]Failed to fetch clones data: {clones_response.status_code} - {clones_response.json().get('message', 'Unknown error')}[/bold red]")
         return None
-    
 
-from rich.table import Table
 
 def display_traffic(traffic_data):
-    """Display traffic data (views and clones) in a table."""
+    """Display traffic data (views and clones) in tables."""
     views = traffic_data['views']
     clones = traffic_data['clones']
     
-    # Table for Views
-    views_table = Table(title="GitHub Repository Traffic - Views")
-    views_table.add_column("Date", justify="left", style="cyan")
-    views_table.add_column("Unique Views", justify="right", style="green")
-    views_table.add_column("Total Views", justify="right", style="magenta")
+    # Prepare data for Views Table
+    view_columns = [
+        {'name': "Date", 'justify': 'left', 'style': 'cyan'},
+        {'name': "Unique Views", 'justify': 'right', 'style': 'green'},
+        {'name': "Total Views", 'justify': 'right', 'style': 'magenta'}
+    ]
+    views_rows = [
+        (view['timestamp'][:10], str(view['uniques']), str(view['count'])) 
+        for view in views['views']]
     
-    for view in views['views']:
-        date = view['timestamp'][:10]
-        unique_views = str(view['uniques'])
-        total_views = str(view['count'])
-        views_table.add_row(date, unique_views, total_views)
+    # Display Views Table
+    display_table("GitHub Repository Traffic - Views", view_columns, views_rows)
     
-    console.print(views_table)
+    # Prepare data for Clones Table
+    clones_columns = [
+        {'name': "Date", 'justify': 'left', 'style': 'cyan'},
+        {'name': "Unique Clones", 'justify': 'right', 'style': 'green'},
+        {'name': "Total Clones", 'justify': 'right', 'style': 'magenta'}
+    ]
+    clones_rows = [
+        (clone['timestamp'][:10], str(clone['uniques']), str(clone['count'])) 
+        for clone in clones['clones']]
     
-    # Table for Clones
-    clones_table = Table(title="GitHub Repository Traffic - Clones")
-    clones_table.add_column("Date", justify="left", style="cyan")
-    clones_table.add_column("Unique Clones", justify="right", style="green")
-    clones_table.add_column("Total Clones", justify="right", style="magenta")
-    
-    for clone in clones['clones']:
-        date = clone['timestamp'][:10]
-        unique_clones = str(clone['uniques'])
-        total_clones = str(clone['count'])
-        clones_table.add_row(date, unique_clones, total_clones)
-    
-    console.print(clones_table)
+    # Display Clones Table
+    display_table("GitHub Repository Traffic - Clones", clones_columns, clones_rows)
 
