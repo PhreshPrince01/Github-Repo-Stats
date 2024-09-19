@@ -186,3 +186,27 @@ def display_releases(releases):
         for release in releases
     ]
     display_table("GitHib Releses Stats", columns, rows)
+
+
+def get_tags_stas(repo_name):
+    """
+    Fetch tags data
+    """
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/tags"
+    return make_request(url)
+
+
+def display_tags(tags):
+    """
+    Display tags in a table.
+    """
+    columns = [
+        {"name": "Tag Name", "justify":"left", "style":"cyan"},
+        {"name": "Commit SHA", "justify":"left", "style":"green"}
+    ]
+
+    rows = [
+        [tag['name'], tag['commit']['sha']]
+        for tag in tags
+    ]
+    display_table("GitHub Tags", columns, rows)
