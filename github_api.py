@@ -188,7 +188,7 @@ def display_releases(releases):
     display_table("GitHib Releses Stats", columns, rows)
 
 
-def get_tags_stas(repo_name):
+def get_tags_stats(repo_name):
     """
     Fetch tags data
     """
