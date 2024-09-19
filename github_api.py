@@ -210,3 +210,11 @@ def display_tags(tags):
         for tag in tags
     ]
     display_table("GitHub Tags", columns, rows)
+
+
+def get_languages_stats(repo_name):
+    """
+    Fetch programming languages used in a GitHub repository.
+    """
+    url = f"https:/{GITHUB_API_URL}/repos/{repo_name}/languages"
+    return make_request(url)
