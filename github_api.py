@@ -4,28 +4,71 @@ GITHUB_API_URL = "https://api.github.com"
 
 def get_repo_data(repo_name):
     """
-    Fetch data from a GitHub repository.
+    Fetch data from a GitHub repository, including pull requests, contributors, and other details.
     """
-    url = f"{GITHUB_API_URL}/repos/{repo_name}"
-    return make_request(url)
+    repo_url = f"{GITHUB_API_URL}/repos/{repo_name}"
+    pulls_url = f"{GITHUB_API_URL}/repos/{repo_name}/pulls?state=all"
+    contributors_url = f"{GITHUB_API_URL}/repos/{repo_name}/contributors"
+    license_url = f"{GITHUB_API_URL}/repos/{repo_name}/license"
+    releases_url = f"{GITHUB_API_URL}/repos/{repo_name}/releases/latest"
+    
+    repo_data = make_request(repo_url)
+    pulls_data = make_request(pulls_url)
+    contributors_data = make_request(contributors_url)
+    license_data = make_request(license_url)
+    latest_release = make_request(releases_url)
+
+    # Return combined data
+    return {
+        "repo": repo_data,
+        "pulls": pulls_data,
+        "contributors": contributors_data,
+        "license": license_data,
+        "latest_release": latest_release
+    }
+
     
 
 def display_stats(data):
     """
-    Display repository stats in a tabele.
+    Display repository stats in a table with formatted numbers and repository size in MB.
     """
+    repo = data["repo"]
+    pulls = data["pulls"]
+    contributors = data["contributors"]
+    license_info = data["license"]
+    latest_release = data["latest_release"]
+
+    open_pulls = len([pr for pr in pulls if pr["state"] == "open"])
+    closed_pulls = len([pr for pr in pulls if pr["state"] == "closed"])
+
+    # Convert repository size from KB to MB and format to 2 decimal places
+    repo_size_mb = f"{repo['size'] / 1024:.2f} MB"
+
     columns = [
         {"name": "Stat", "justify": "right", "style": "cyan"},
         {"name": "Value", "justify": "right", "style": "magenta"}
     ]
 
     rows = [
-        ["Stars", str(data["stargazers_count"])],
-        ["Forks", str(data["forks_count"])],
-        ["Open issues", str(data["open_issues_count"])],
-        ["Watchers", str(data["watchers_count"])]
+        ["Stars", f"{repo['stargazers_count']:,}"],
+        ["Forks", f"{repo['forks_count']:,}"],
+        ["Open Issues", f"{repo['open_issues_count']:,}"],
+        ["Watchers", f"{repo['watchers_count']:,}"],
+        ["Open Pull Requests", f"{open_pulls:,}"],
+        ["Closed Pull Requests", f"{closed_pulls:,}"],
+        ["Contributors", f"{len(contributors):,}"],
+        ["License", license_info.get("license", {}).get("name", "No license")],
+        ["Latest Release", latest_release.get("name", "No releases")],
+        ["Default Branch", repo["default_branch"]],
+        ["Repository Size", repo_size_mb],
+        ["Creation Date", repo["created_at"][:10]],
+        ["Last Updated", repo["updated_at"][:10]]
     ]
+
     display_table("GitHub Repository Stats", columns, rows)
+
+
 
 
 def get_commits_data(repo_name):

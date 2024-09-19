@@ -7,7 +7,7 @@ def cli():
     """
     CLI tool for interacting with GitHub repositories.
     
-    Example Usage: python3 cli.py --repo get-stats octocat/Hello-World
+    Example Usage: python3 cli.py get-stats --repo octocat/Hello-World
             Help Example Usage: python3 cli.py get-contributors --help
     """
     
