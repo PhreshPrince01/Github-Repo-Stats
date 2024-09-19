@@ -235,3 +235,9 @@ def display_languages(languages):
         for language, bytes_of_code in languages.items()
     ]
     display_table("GitHub Repository Languages", columns, rows)
+
+
+def get_forks_stats(repo_name):
+    """Fetch forks for a GitHub repository."""
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/forks"
+    return make_request(url)
