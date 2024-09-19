@@ -241,3 +241,19 @@ def get_forks_stats(repo_name):
     """Fetch forks for a GitHub repository."""
     url = f"{GITHUB_API_URL}/repos/{repo_name}/forks"
     return make_request(url)
+
+
+def display_forks(forks):
+    """Display forks in a table."""
+    columns = [
+        {"name": "Fork Name", "justify":"left", "style":"cyan"},
+        {"name": "Owner", "justify":"left", "style":"green"},
+        {"name":"Stars", "justify":"right", "style":"magenta"}
+    ]
+
+    rows = [
+        [fork['full_name'],fork['owner']['login'], str(fork['stargazers_count'])]
+        for fork in forks
+    ]
+
+    display_table("GitHub Repository Forks")
