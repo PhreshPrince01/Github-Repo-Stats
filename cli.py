@@ -57,28 +57,32 @@ def get_commits(repo, confirm):
 
 @cli.command(help="Fetch and display issues for a GitHub repository.\n\nExample: python3 cli.py get-issues --repo owner/repo")
 @click.option('--repo', prompt='GitHub Repository', help='The full name of the GitHub repository (e.g., owner/repo)')
+@click.option('--state', type=click.Choice(['open', 'closed', 'all'], case_sensitive=False), default='all', help='Filter issues by state (open/closed).')
 @click.option('--confirm/--no-confirm', default=True, help='Require confirmation before fetching data.')
-def get_issues(repo, confirm):
-    """Fetch and display issues for a GitHub repository."""
-    if confirm and not prompt_confirmation("issues", repo):
-        click.echo("Operation cancelled.")
-        return
-    data = get_issues_stats(repo)
+def get_issues(repo, state, confirm):
+    """
+    CLI to get issues for a GitHub Repository
+    """
+    if confirm:
+        click.confirm(f"Are you sure you want to fetch {state} issues for {repo}?", abort=True)
+    data = get_issues_stats(repo, state)
     if data:
         display_issues(data)
+
     else:
         print_error_msg()
 
 
 @cli.command(help="Fetch and display pull requests for a GitHub repository.\n\nExample: python3 cli.py get-pull-requests --repo owner/repo")
 @click.option('--repo', prompt='GitHub Repository', help='The full name of the GitHub repository (e.g., owner/repo)')
+@click.option('--state', type=click.Choice(['open', 'closed','all'], case_sensitive=False),default='all', help='Filter pull requests by state (open/closed).')
 @click.option('--confirm/--no-confirm', default=True, help='Require confirmation before fetching data.')
-def get_pull_requests(repo, confirm):
+def get_pull_requests(repo, state, confirm):
     """Fetch and display pull requests for a GitHub repository."""
     if confirm and not prompt_confirmation("pull requests", repo):
         click.echo("Operation cancelled.")
         return
-    data = get_pull_requests_stats(repo)
+    data = get_pull_requests_stats(repo,state)
     if data:
         display_pull_requests(data)
     else:

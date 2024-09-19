@@ -126,11 +126,11 @@ def display_contributors_stats(contributors):
     display_table("GitHib Contributor Stats", columns, rows)
 
 
-def get_issues_stats(repo_name):
+def get_issues_stats(repo_name, state='all'):
     """
     Fetch issues data
     """
-    url = f"{GITHUB_API_URL}/repos/{repo_name}/issues?state=all"
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/issues?state={state}"
     return make_request(url)
 
 
@@ -146,17 +146,17 @@ def display_issues(issues):
     ]
 
     rows = [
-        [issue['title'], issue['user']['login'], issue['state'], issue['created_at']]
+        [issue['title'], issue['user']['login'], issue['state'], issue['created_at'][:10]]
         for issue in issues
     ]
     display_table("GitHub Issues Stats", columns, rows)
 
 
-def get_pull_requests_stats(repo_name):
+def get_pull_requests_stats(repo_name, state="all"):
     """
     Fetch issues data
     """
-    url = f"{GITHUB_API_URL}/repos/{repo_name}/pulls?state=all"
+    url = f"{GITHUB_API_URL}/repos/{repo_name}/pulls?state={state}"
     return make_request(url)
 
 
@@ -172,7 +172,7 @@ def display_pull_requests(prs):
     ]
 
     rows = [
-        [pr['title'],pr['user']['login'],pr['state'],pr['created_at']]
+        [pr['title'],pr['user']['login'],pr['state'],pr['created_at'][:10]]
         for pr in prs
     ]
     display_table("GitHib Pull Requests Stats", columns, rows)
