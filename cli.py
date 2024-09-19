@@ -102,7 +102,7 @@ def get_releases(repo, confirm):
     CLI to get branches for a GitHub Repository
     """
     if confirm:
-        click.confirm(f"Are you sure you want to fetch branches for {repo}",abort=True)
+        click.confirm(f"Are you sure you want to fetch releases for {repo}",abort=True)
     data = get_release_stats(repo)
     if data:
         display_releases(data)
