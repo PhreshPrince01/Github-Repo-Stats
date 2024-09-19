@@ -257,3 +257,66 @@ def display_forks(forks):
     ]
 
     display_table("GitHub Repository Forks",columns, rows)
+import requests
+from rich.console import Console
+
+console = Console()
+
+def get_traffic_stats(repo_name):
+    """Fetch traffic data for a GitHub repository (views and clones)."""
+    views_url = f"https://api.github.com/repos/{repo_name}/traffic/views"
+    clones_url = f"https://api.github.com/repos/{repo_name}/traffic/clones"
+    
+    headers = {"Authorization": f"token {TOKEN}"}
+    
+    views_response = requests.get(views_url, headers=headers)
+    clones_response = requests.get(clones_url, headers=headers)
+    
+    if views_response.status_code == 200 and clones_response.status_code == 200:
+        return {
+            "views": views_response.json(),
+            "clones": clones_response.json()
+        }
+    else:
+        if views_response.status_code != 200:
+            console.print(f"[bold red]Failed to fetch views data: {views_response.status_code} - {views_response.json().get('message', 'Unknown error')}[/bold red]")
+        if clones_response.status_code != 200:
+            console.print(f"[bold red]Failed to fetch clones data: {clones_response.status_code} - {clones_response.json().get('message', 'Unknown error')}[/bold red]")
+        return None
+    
+
+from rich.table import Table
+
+def display_traffic(traffic_data):
+    """Display traffic data (views and clones) in a table."""
+    views = traffic_data['views']
+    clones = traffic_data['clones']
+    
+    # Table for Views
+    views_table = Table(title="GitHub Repository Traffic - Views")
+    views_table.add_column("Date", justify="left", style="cyan")
+    views_table.add_column("Unique Views", justify="right", style="green")
+    views_table.add_column("Total Views", justify="right", style="magenta")
+    
+    for view in views['views']:
+        date = view['timestamp'][:10]
+        unique_views = str(view['uniques'])
+        total_views = str(view['count'])
+        views_table.add_row(date, unique_views, total_views)
+    
+    console.print(views_table)
+    
+    # Table for Clones
+    clones_table = Table(title="GitHub Repository Traffic - Clones")
+    clones_table.add_column("Date", justify="left", style="cyan")
+    clones_table.add_column("Unique Clones", justify="right", style="green")
+    clones_table.add_column("Total Clones", justify="right", style="magenta")
+    
+    for clone in clones['clones']:
+        date = clone['timestamp'][:10]
+        unique_clones = str(clone['uniques'])
+        total_clones = str(clone['count'])
+        clones_table.add_row(date, unique_clones, total_clones)
+    
+    console.print(clones_table)
+

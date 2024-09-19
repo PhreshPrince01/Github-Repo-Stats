@@ -157,5 +157,21 @@ def get_forks(repo, confirm):
     else:
         print(404)
 
+
+@cli.command()
+@click.option('--repo', prompt='GitHub Repository', help= 'The full name of the GitHub repository (e.g., owener/repo)')
+@click.option('--confirm/--no-confirm', default=True, help='Require confirmation before fetching data.')
+def get_traffic(repo, confirm):
+    """
+    CLI to get traffic for a GitHub Repository
+    """
+    if confirm:
+        click.confirm(f"Are you sure you want to fetch traffic for {repo}",abort=True)
+    data = get_traffic_stats(repo)
+    if data:
+        display_traffic(data)
+    else:
+        print(404)
+
 if __name__ == "__main__":
     cli()
