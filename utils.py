@@ -2,7 +2,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from rich.table import Table
-import requests,os
+import requests,os, click
 
 console = Console()
 TOKEN = os.getenv("GITHUB_TOKEN")
@@ -20,6 +20,12 @@ def print_welcome_message():
                       border_style="bright_blue",
                       padding=(0,1),)
     console.print(panel)
+
+
+def prompt_confirmation(command, repo):
+    """Prompt for confirmation before proceeding."""
+    return click.confirm(f"Are you sure you want to fetch {command} for {repo}?", default=True)
+
 
 
 
