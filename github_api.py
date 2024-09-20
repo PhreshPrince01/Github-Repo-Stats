@@ -307,10 +307,7 @@ def display_forks(forks):
     ]
 
     display_table("GitHub Repository Forks",columns, rows)
-import requests
-from rich.console import Console
 
-console = Console()
 
 def get_traffic_stats(repo_name):
     """Fetch traffic data for a GitHub repository (views and clones)."""
