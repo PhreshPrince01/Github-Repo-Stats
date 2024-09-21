@@ -1,4 +1,4 @@
-from src.utils import *
+from utils import *
 
 GITHUB_API_URL = "https://api.github.com"
 
