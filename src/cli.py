@@ -1,6 +1,6 @@
 import click
-from github_api import *
-from utils import print_welcome_message
+from src.github_api import *
+from src.utils import print_welcome_message
 
 @click.group()
 def cli():
