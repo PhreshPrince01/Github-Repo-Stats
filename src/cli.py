@@ -34,7 +34,6 @@ def get_stats(repo, confirm):
         click.echo("Operation cancelled.")
         return
     
-    show_progress("Fetching Repo Stats...",total=100)
     data = get_repo_data(repo)
     if data:
         show_status("Repository stats fetched successfully.")

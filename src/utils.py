@@ -2,8 +2,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from rich.table import Table
-import requests,os, click,time
-from rich.progress import Progress, BarColumn, TextColumn
+import requests,os, click
 
 
 console = Console()
@@ -73,22 +72,12 @@ def display_table(title, columns, rows):
     console.print(table)
 
 
-def show_progress(task_description, total):
-    """Show a progress bar for ongoing operations."""
-    with Progress(
-        TextColumn("[progress.description]{task.description}"),
-        BarColumn(),
-        TextColumn("[progress.percentage]{task.percentage:>3}%"),
-        transient=True,
-    ) as progress:
-        task = progress.add_task(task_description, total=total)
-        while not progress.finished:
-            time.sleep(0.1)  # Simulate work
-            progress.update(task, advance=10)
-
 def show_status(message, success=True):
     """Show a status message with visual indicators."""
     if success:
         console.print(Panel(f"[bold green]{message}[/bold green]", title="Success", title_align="left"))
     else:
         console.print(Panel(f"[bold red]{message}[/bold red]", title="Error", title_align="left"))
+
+
+    
