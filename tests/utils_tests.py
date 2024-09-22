@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from rich.panel import Panel
+
 
 from src.utils import print_welcome_message, show_status,prompt_confirmation,print_error_msg, make_request, display_table
 
