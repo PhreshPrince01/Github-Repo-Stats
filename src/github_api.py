@@ -17,7 +17,7 @@ def get_repo_data(repo_name):
     contributors_data = make_request(contributors_url)
     license_data = make_request(license_url)
     latest_release = make_request(releases_url)
-
+   
     if repo_data == None and pulls_data == None and contributors_data == None and license_data == None and latest_release == None:
         return None
     
@@ -45,12 +45,18 @@ def display_stats(data):
     contributors = data["contributors"]
     license_info = data["license"]
     latest_release = data["latest_release"]
+  
 
     open_pulls = len([pr for pr in pulls if pr["state"] == "open"])
     closed_pulls = len([pr for pr in pulls if pr["state"] == "closed"])
 
     # Convert repository size from KB to MB and format to 2 decimal places
     repo_size_mb = f"{repo['size'] / 1024:.2f} MB"
+
+
+     # Check if latest_release is not None before accessing its attributes
+    latest_release_name = latest_release.get("name") if latest_release else "No releases"
+
 
     columns = [
         {"name": "Stat", "justify": "right", "style": "cyan"},
@@ -66,7 +72,7 @@ def display_stats(data):
         ["Closed Pull Requests", f"{closed_pulls:,}"],
         ["Contributors", f"{len(contributors):,}"],
         ["License", license_info.get("license", {}).get("name", "No license")],
-        ["Latest Release", latest_release.get("name", "No releases")],
+        ["Latest Release", latest_release_name],
         ["Default Branch", repo["default_branch"]],
         ["Repository Size", repo_size_mb],
         ["Creation Date", repo["created_at"][:10]],
