@@ -25,6 +25,9 @@ The GitHub Repo Stats CLI tool provides quick and easy access to key GitHub repo
 <h2>Installation</h2>
 #TODO
 
+<h2>Usage</h2>
+#TODO
+
 
 <h2>Contributing</h2>
 
