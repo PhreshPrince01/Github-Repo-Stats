@@ -47,6 +47,18 @@ Contributions are welcome! Please follow these steps:
 
 Please ensure that your code follows the [PEP 8 style](https://peps.python.org/pep-0008/) guide.
 
+
+Skills Gained from Working on This Project
+
+By developing the GitHub Repository Stats CLI, I gained experience in the following areas:
+
+    API Integration: Interfacing with the GitHub API to retrieve and display repository data.
+    Error Handling: Implementing robust error-handling mechanisms to handle various HTTP response codes.
+    Caching: Utilizing caching techniques (e.g., functools.lru_cache) to optimize API calls and avoid redundant requests.
+    Command-Line Interface (CLI) Development: Building a user-friendly CLI using Python's argparse.
+    Continuous Integration (CI): Setting up a CI pipeline with GitHub Actions for testing and automation.
+    Package Distribution: Preparing the project for distribution via PyPI with packaging tools like setuptools.
+
 <h2>License</h2>
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
