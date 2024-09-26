@@ -52,12 +52,12 @@ Please ensure that your code follows the [PEP 8 style](https://peps.python.org/p
 
 By developing the GitHub Repository Stats CLI, I gained experience in the following areas:
 
-    API Integration: Interfacing with the GitHub API to retrieve and display repository data.
-    Error Handling: Implementing robust error-handling mechanisms to handle various HTTP response codes.
-    Caching: Utilizing caching techniques (e.g., functools.lru_cache) to optimize API calls and avoid redundant requests.
-    Command-Line Interface (CLI) Development: Building a user-friendly CLI using Python's argparse.
-    Continuous Integration (CI): Setting up a CI pipeline with GitHub Actions for testing and automation.
-    Package Distribution: Preparing the project for distribution via PyPI with packaging tools like setuptools.
+- API Integration: Interfacing with the GitHub API to retrieve and display repository data.
+- Error Handling: Implementing robust error-handling mechanisms to handle various HTTP response codes.
+- Caching: Utilizing caching techniques (e.g., functools.lru_cache) to optimize API calls and avoid redundant requests.
+- Command-Line Interface (CLI) Development: Building a user-friendly CLI using Python's click.
+- Continuous Integration (CI): Setting up a CI pipeline with GitHub Actions for testing and automation.
+- Package Distribution: Preparing the project for distribution via PyPI with packaging tools like setuptools.
 
 <h2>License</h2>
 
