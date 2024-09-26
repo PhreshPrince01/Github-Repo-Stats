@@ -48,7 +48,7 @@ Contributions are welcome! Please follow these steps:
 Please ensure that your code follows the [PEP 8 style](https://peps.python.org/pep-0008/) guide.
 
 
-Skills Gained from Working on This Project
+<h2>Skills Gained from Working on This Project</h2>
 
 By developing the GitHub Repository Stats CLI, I gained experience in the following areas:
 
